@@ -23,7 +23,7 @@ usage()
   fprintf(stderr, "           %%d somewhere in it\n");
   fprintf(stderr, "  -s spac  add spac extra newlines after each line\n");
   fprintf(stderr, "  -l       number the ends of each line showing position\n");
-  fprintf(stderr, "  -d n     specify n for the space to give numbers [5]");
+  fprintf(stderr, "  -d n     specify n for the space to give numbers [5]\n");
     
   exit(1);
 }
