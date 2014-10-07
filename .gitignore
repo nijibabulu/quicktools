@@ -5,9 +5,11 @@ fasta_histogram
 fasta_length
 fasta_names
 fasta_rc
+fasta_sample
 fasta_split
 fasta_stat
 fasta_substr
+fasta_translate
 lcmask
 make_fasta
 max
@@ -24,3 +26,4 @@ stderror
 subtract
 ucfasta
 .*.sw*
+.svn
