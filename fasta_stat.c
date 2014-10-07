@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
       fasta = fopen(argv[i], "r");
       if(fasta == NULL) {
           perror("Error: ");
-          fprintf(stderr, "Could not open x%sx for reading.\n", argv[1]);
+          fprintf(stderr, "Could not open %s for reading.\n", argv[1]);
           exit(1);
       }
       nseqs = totbases = nbases = saw_multiple = 0;
