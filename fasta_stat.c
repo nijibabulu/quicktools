@@ -64,7 +64,8 @@ int main(int argc, char *argv[])
     for(i = 0; i < argc; i++) {
       fasta = fopen(argv[i], "r");
       if(fasta == NULL) {
-          fprintf(stderr, "Could not open %s for reading.\n", argv[1]);
+          perror("Error: ");
+          fprintf(stderr, "Could not open x%sx for reading.\n", argv[1]);
           exit(1);
       }
       nseqs = totbases = nbases = saw_multiple = 0;
@@ -124,7 +125,7 @@ int main(int argc, char *argv[])
         else
           printf("\n");
       }
+      fclose(fasta);
     }
-    fclose(fasta);
     return 0;
 }

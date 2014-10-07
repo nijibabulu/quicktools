@@ -57,13 +57,7 @@ int main(int argc, char *argv[])
       tmp = samples[max]; samples[max] = samples[r]; samples[r] = tmp;
     }
 
-    printf("%ld\n",nsamples);
-
     qsort(samples,nsamples,sizeof(long int),cmpint);
-
-    for(i = 0; i < nsamples; i++)
-      printf("%ld,", samples[i]);
-    printf("\n");
 
 
     fasta = fopen(argv[1], "r");
