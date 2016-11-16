@@ -24,6 +24,7 @@ usage()
   fprintf(stderr, "  -s spac  add spac extra newlines after each line\n");
   fprintf(stderr, "  -l       number the ends of each line showing position\n");
   fprintf(stderr, "  -d n     specify n for the space to give numbers [5]\n");
+  fprintf(stderr, "  -p       crop FASTA header description (after space)\n");
     
   exit(1);
 }
@@ -33,7 +34,7 @@ main(int argc, char *argv[])
 {
   int col,width,inplace,count,seqcount,spacing,numbering,i,number_places,seqpos;
   FILE *out,*fasta;
-  char buf[2048],c,tmpfilename[20],*header;
+  char buf[16384],c,tmpfilename[20],*header,found,crop;
   
   extern int optind;
   extern char *optarg;
@@ -46,8 +47,9 @@ main(int argc, char *argv[])
   numbering = 0;
   number_places = 5;
   spacing = 1;
+  crop = 0;
   
-  while((c = getopt(argc,argv, "cihw:n:s:ld:")) != -1) {
+  while((c = getopt(argc,argv, "cihw:n:s:ld:p")) != -1) {
     switch(c) {
     case 'n': header = optarg; break;
     case 'c': count = 1; break;
@@ -56,6 +58,7 @@ main(int argc, char *argv[])
     case 's': spacing = strtol(optarg, NULL, 0); break;
     case 'l': numbering = 1; break;
     case 'd': number_places = strtol(optarg, NULL, 0); break;
+    case 'p': crop = 1; break;
     case 'h': default: usage(); break;
     }
   }
@@ -86,13 +89,18 @@ main(int argc, char *argv[])
     switch(c) {
     case '>':
       seqcount++;
-      fgets(buf, 2047, fasta);
+      fgets(buf, 16383, fasta);
       if(header != NULL) strcpy(buf,header);
       if(col > 0) {
         if(numbering) fprintf(out, " %d", seqpos-1);
-        for(i = 0; i < spacing; i++) fputc('\n', out);
+        if(seqcount) for(i = 0; i < spacing; i++) fputc('\n', out);
       }
       if(count) sprintf(buf,buf,seqcount);
+      for(found = 0, i = 0; buf[i] != '\0'; i++) {
+        if(buf[i] == '\n')  found = 1;
+        if(crop && isspace(buf[i])) break;
+      }
+      if(!found) { buf[i] = '\n'; buf[i+1] = '\0'; }
       fprintf(out,">%s", buf); /* should include newline -- this is easier :) */
       for(i = 0; i < spacing-1; i++) fputc('\n', out);
       seqpos = 1;

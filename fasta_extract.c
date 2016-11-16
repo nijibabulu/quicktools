@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     fasta = fopen(argv[0], "r");
 
     if(fasta == NULL) {
-        fprintf(stderr, "Could not open %s for reading.\n", argv[1]);
+        fprintf(stderr, "Could not open %s for reading.\n", argv[0]);
         exit(1);
     }
     in_match = 0;

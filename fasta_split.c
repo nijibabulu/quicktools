@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     extern int optind;
     FILE * fasta, *out;
     char base[2048],name[2048], filename[2048], buf[2048], c,*s,*bn,*outdir;
-    int calc,linepos,i,n,each,nseqs,consumed_seqs,fileno,wrap;
+    int calc,linepos,i,n,each,nseqs,consumed_seqs,fileno,wrap,num_files;
     unsigned long len;
 
     each=1;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
           fprintf(stderr, "-n and -s are mutually exclusive\n");
           exit(1);
         }
-        n = strtol(optarg,NULL,0);
+        num_files = strtol(optarg,NULL,0);
         if(c == 'n') 
           calc = 1;
         each = 0;
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
       for(nseqs=0; (c = fgetc(fasta)) != EOF;) 
         if(c == '>')
           nseqs++;
-      n = nseqs/n;
+      n = nseqs/num_files;
       fseek(fasta,0L,SEEK_SET);
     }
     out = NULL;
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
               }
             }
             else {
-              if(consumed_seqs==n) 
+              if(consumed_seqs==n && !(calc && fileno == num_files)) 
                 consumed_seqs = 1;
               else
                 consumed_seqs++;
