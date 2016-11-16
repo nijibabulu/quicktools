@@ -1,6 +1,5 @@
 PROGS=fasta_translate fasta_split fasta_length fasta_substr fasta_sample lcmask ucfasta simple_tm fasta_names fasta_stat add subtract mean max min stddev stderror randseq seqfmt make_fasta fasta_extract contig_split fasta_rc mw fasta_uniqueid
 PYPROGS=fasta_histogram sam_to_fastx
-SCRIPTS=raw_to_fasta_webform.sh
 
 CC=gcc
 CFLAGS?=-g -O2 -Wno-unused-result
@@ -24,7 +23,7 @@ randseq: randseq.c
 
 install: all
 	install -d $(DESTDIR)/bin
-	@for f in $(PROGS) $(PYPROGS) $(SCRIPTS); do \
+	@for f in $(PROGS) $(PYPROGS) ; do \
 		echo "installing $$f"; \
 		install -m 0755 $$f $(DESTDIR)/bin; \
 	done
