@@ -256,9 +256,9 @@ int main(int argc, char *argv[])
             codon_pos++;
             if(codon_pos == 3) {
               aa = lookupCodon(codon_buf);
-              if(aa == 0)
-                aa = '*';
-              putchar(aa);
+              if(aa != 0)
+                /*aa = '*';*/
+                putchar(aa);
               codon_pos = 0;
             }
             break;
