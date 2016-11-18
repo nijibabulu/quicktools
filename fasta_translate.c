@@ -1,3 +1,4 @@
+#include <ctype.h>
 /* -- taken from jksrc -- */
 
 #define TRUE 1

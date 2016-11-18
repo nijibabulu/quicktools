@@ -1,6 +1,8 @@
 /* not such a quickie--but for now just here 
  */
 
+#include<ctype.h>
+#include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
