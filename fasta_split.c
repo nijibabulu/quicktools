@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<libgen.h>
+#include<unistd.h>
 
 void usage (char * progname)
 {
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
           fprintf(stderr, "-n and -s are mutually exclusive\n");
           exit(1);
         }
-        num_files = strtol(optarg,NULL,0);
+        n = num_files = strtol(optarg,NULL,0);
         if(c == 'n') 
           calc = 1;
         each = 0;
