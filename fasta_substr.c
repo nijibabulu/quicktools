@@ -3,14 +3,19 @@
 #include<string.h>
 #include<ctype.h>
 #include<stdlib.h>
+#include<libgen.h>
 
 #define LINE_LEN 60
 #define PLUS '+'
 #define MINUS '-'
 
-void usage (char * progname)
+#define USAGE_SUBSTR "fasta_substr [options] fasta-file start [length]"
+#define USAGE_RANGE "fasta_range [options] fasta-file start [end]"
+
+void usage (const char * usage_line)
 {
-  fprintf(stderr, "%s [options] fasta-file start [length]\n", progname);
+  /*fprintf(stderr, "%s [options] fasta-file start [length]\n", progname);*/
+  fprintf(stderr, "%s\n", usage_line);
   fprintf(stderr, "\n");
   fprintf(stderr, "Fetch a substring of the first sequence in a fasta file.\n");
   fprintf(stderr, "If length is not given, fetch the sequence starting at\n");
@@ -18,6 +23,7 @@ void usage (char * progname)
   fprintf(stderr, "Options:\n");
   fprintf(stderr, "  -h     print this help message and exit\n");
   fprintf(stderr, "  -n     name of the sequence [name_start:length]\n");
+
   exit(1);
 }
 
@@ -27,25 +33,28 @@ int main(int argc, char *argv[])
   extern int optind;
   FILE * fasta;
   char header[2048], c,d;
-  int pos, start, length, i,j;
-  char *str,*final,*name;
+  int pos, start, length, i, j, complen;
+  char *str,*final,*name,*usage_line;
 
   name = NULL;
+  if(strcmp(basename(argv[0]), "fasta_substr") == 0) {
+    complen = 0; usage_line = USAGE_SUBSTR; 
+  } else if(strcmp(basename(argv[0]), "fasta_range") == 0) {
+    complen = 1; usage_line = USAGE_RANGE; 
+  }
 
   while((c = getopt(argc,argv,"n:h")) != -1) {
     switch(c){
-    case 'n':
-      name = optarg;
-      break;
+    case 'n': name = optarg; break;
     case 'h':
     default:
-      usage(argv[0]);
+      usage(usage_line);
       break;
     }
   }
 
   if(argc-optind != 2 && argc-optind != 3)
-      usage(argv[0]);
+      usage(usage_line);
 
   argv += optind;
   argc -= optind;
@@ -54,6 +63,8 @@ int main(int argc, char *argv[])
   length = 0;
   if(argc == 3)
     length = atoi(argv[2]);
+  if(complen)
+    length -= start;
 
   fasta = fopen(argv[0], "r");
   if(fasta == NULL) {
