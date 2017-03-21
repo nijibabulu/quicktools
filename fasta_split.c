@@ -5,6 +5,7 @@
 #include<libgen.h>
 #include<unistd.h>
 
+#define BUFSZ 16384
 void usage (char * progname)
 {
     fprintf(stderr, "%s [OPTIONS] file-name\n", progname);
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
     extern char *optarg;
     extern int optind;
     FILE * fasta, *out;
-    char base[2048],name[2048], filename[2048], buf[2048], c,*s,*bn,*outdir;
+    char base[BUFSZ],name[BUFSZ], filename[BUFSZ], buf[BUFSZ], c,*s,*bn,*outdir;
     int calc,linepos,i,n,each,nseqs,consumed_seqs,fileno,wrap,num_files;
     unsigned long len;
 
@@ -92,7 +93,7 @@ int main(int argc, char *argv[])
     if(s == bn)
       strcat(base, basename(argv[0]));
     else {
-      len=(unsigned long)s-(unsigned long)bn;
+      len=strlen(base) + (unsigned long)s-(unsigned long)bn;
       strncat(base,basename(argv[0]),len);
       base[len]='\0';
     }
@@ -111,16 +112,16 @@ int main(int argc, char *argv[])
     while((c = fgetc(fasta)) != EOF) {
         switch(c) {
         case '>':
-            fgets(name, 2048, fasta);
+            fgets(name, BUFSZ, fasta);
             if(each) {
               strcpy(filename, name);
-              for(i = 0; i < 2048; i++) {
+              for(i = 0; i < BUFSZ; i++) {
                 if(filename[i] == '\n' || filename[i] == '\r' || isspace(filename[i]) || filename[i] == '/') {
                   filename[i] = '\0';
                   break;
                 }
               }
-              if(i >= 2000) {
+              if(i >= BUFSZ-1) {
                 fprintf(stderr, "problem with file...no eol on header.\n"); 
                 exit(1);
               }
