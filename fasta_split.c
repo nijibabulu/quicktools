@@ -5,7 +5,7 @@
 #include<libgen.h>
 #include<unistd.h>
 
-#define BUFSZ 16384
+#define BUFSZ 32768
 void usage (char * progname)
 {
     fprintf(stderr, "%s [OPTIONS] file-name\n", progname);
