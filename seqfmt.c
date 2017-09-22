@@ -7,6 +7,8 @@
 #include<stdlib.h>
 #include<string.h>
 
+#define BUFSZ 32768
+
 void
 usage() 
 {
@@ -36,7 +38,7 @@ main(int argc, char *argv[])
 {
   int col,width,inplace,count,seqcount,spacing,numbering,i,number_places,seqpos;
   FILE *out,*fasta;
-  char buf[16384],c,tmpfilename[20],*header,found,crop;
+  char buf[BUFSZ],c,tmpfilename[20],*header,found,crop;
   
   extern int optind;
   extern char *optarg;
@@ -91,7 +93,7 @@ main(int argc, char *argv[])
     switch(c) {
     case '>':
       seqcount++;
-      fgets(buf, 16383, fasta);
+      fgets(buf, BUFSZ, fasta);
       if(header != NULL) strcpy(buf,header);
       if(col > 0) {
         if(numbering) fprintf(out, " %d", seqpos-1);
