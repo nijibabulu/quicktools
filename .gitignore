@@ -7,6 +7,7 @@ fasta_names
 fasta_rc
 fasta_sample
 fasta_split
+fastq_split
 fasta_stat
 fasta_substr
 fasta_translate
