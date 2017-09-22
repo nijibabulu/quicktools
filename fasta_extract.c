@@ -28,6 +28,7 @@ int idcmp(char *arg,char * line)
     if(arg[i] != line[i]) 
       return arg[i] - line[i];
   }
+  return 0;
 }
 
 int main(int argc, char *argv[]) 

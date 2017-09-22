@@ -107,15 +107,18 @@ main(int argc, char *argv[])
 
   alph_size=strlen(alphabets[alphabet]);
   for(i = 0; i < count; i++) {
-    if(use_fasta == 1)
-      if(count > 1)
+    if(use_fasta == 1) {
+      if(count > 1) {
 	fprintf(out,">%s%d\n",name,i);
-      else
+      } else {
 	fprintf(out,">%s\n",name);
-    if(minlen == maxlen)
+      }
+    if(minlen == maxlen) {
       seqlen = maxlen;
-    else
+    } else {
       seqlen = (int)rand()%(maxlen-minlen+1) + minlen;
+    }
+    }
     for(j = 0; j < seqlen; j++)
       fputc(alphabets[alphabet][(int) (rand() % alph_size)], out);
     fputc('\n',out);
