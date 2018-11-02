@@ -67,9 +67,13 @@ xfgets(char *buf, int len, void *f)
 int
 check_binary(const char * filename) 
 {
-  FILE *f = fopen(filename,"r");
+  FILE *f = fopen(filename,"rb");
   int i,c;
-  for(i = 0; (c = fgetc(f)) && i < BUFSZ; i ++) {
+  if(f == NULL) {
+    fprintf(stderr, "Could not open %s for reading\n", filename);
+    exit(1);
+  }
+  for(i = 0; (c = fgetc(f)) && i < BUFSZ; i++) {
     if(c > 127 || c == 0)  {
       fclose(f);
       return 1;

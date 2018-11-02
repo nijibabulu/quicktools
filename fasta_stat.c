@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 {
     FILE * fasta;
     char buf[2048], c;
-    int nseqs,totbases,nbases,saw_multiple,i;
+    long nseqs,totbases,nbases,saw_multiple,i;
     int output_num,output_length,output_mean_length,output_summary_only;
 
     output_num = output_length = output_mean_length = output_summary_only = 0;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
           case '>':
               if(nbases) {
                 if(!output_summary_only && output_length)
-                  printf("%d %s", nbases, buf);
+                  printf("%ld %s", nbases, buf);
                 saw_multiple=1;
                 nbases = 0;
               }
@@ -91,23 +91,23 @@ int main(int argc, char *argv[])
       }
       if(saw_multiple) {
         if(!output_summary_only && output_length)
-          printf("%d %s\n", nbases, buf);
+          printf("%ld %s\n", nbases, buf);
       }
       if(output_num + output_length + output_mean_length > 1) {
         if(output_summary_only) {
           if(output_num)
-            printf("%d\t",nseqs);
+            printf("%ld\t",nseqs);
           if(output_length)
-            printf("%d\t",totbases);
+            printf("%ld\t",totbases);
           if(output_mean_length)
             printf("%f\t",(float)totbases/nseqs);
           printf("\n");
         }
         else {
           if(output_num)
-            printf("number_of_sequences %d\n", nseqs);
+            printf("number_of_sequences %ld\n", nseqs);
           if(output_length)
-            printf("total_length %d\n", totbases);
+            printf("total_length %ld\n", totbases);
           if(output_mean_length)
             printf("mean_length %.1f\n", (float) totbases/nseqs);
           printf("\n");
@@ -115,9 +115,9 @@ int main(int argc, char *argv[])
       }
       else {
         if(output_num)
-          printf("%d", nseqs);
+          printf("%ld", nseqs);
         else if(output_length)
-          printf("%d", totbases);
+          printf("%ld", totbases);
         else if(output_mean_length)
           printf("%.1f", (float) totbases/nseqs);
         if(argc > 1) 
